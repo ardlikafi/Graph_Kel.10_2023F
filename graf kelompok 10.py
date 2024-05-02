@@ -20,18 +20,18 @@ class Peta:
         return False
 
 peta_jawa_timur = Peta()
-kota_list_jawa_timur = ["Surabaya", "Malang", "Sidoarjo", "Madiun", "Jombang", "Tuban", "Lamongan", "Probolinggo", 
-                        "Pasuruan", "Banyuwangi", "Bondowoso", "Tulungagung", "Ponorogo", "Magetan", "Ngawi", "Bojonegoro", 
+kota_list_jawa_timur = ["Surabaya", "Malang", "Sidoarjo", "Madiun", "Situbondo", "Tuban", "Lamongan", "Probolinggo", 
+                        "Pasuruan", "Banyuwangi", "Bondowoso", "Tulungagung", "Ponorogo", "Nganjuk", "Ngawi", "Bojonegoro", 
                         "Kediri", "Blitar", "Trenggalek", "Pacitan"]
 
 for kota in kota_list_jawa_timur:
     peta_jawa_timur.tambahkanKota(kota)
 
-edges_jawa_timur = [("Surabaya", "Malang"), ("Surabaya", "Sidoarjo"), ("Malang", "Sidoarjo"), ("Malang", "Madiun"), 
-                    ("Madiun", "Jombang"), ("Jombang", "Tuban"), ("Tuban", "Lamongan"), ("Lamongan", "Probolinggo"), 
-                    ("Probolinggo", "Pasuruan"), ("Pasuruan", "Banyuwangi"), ("Banyuwangi", "Bondowoso"), ("Bondowoso", "Tulungagung"), 
-                    ("Tulungagung", "Ponorogo"), ("Ponorogo", "Magetan"), ("Magetan", "Ngawi"), ("Ngawi", "Bojonegoro"), 
-                    ("Bojonegoro", "Kediri"), ("Kediri", "Blitar"), ("Blitar", "Trenggalek"), ("Trenggalek", "Pacitan")]
+edges_jawa_timur = [("Surabaya", "Sidoarjo"), ("Surabaya", "Lamongan"), ("Malang", "Sidoarjo"), ("Situbondo", "Bondowoso"), ("Bondowoso", "Pasuruan"), ("Malang", "Pasuruan"), 
+                    ("Madiun", "Ngawi"), ("Madiun", "Nganjuk"), ("Bojonegoro", "Tuban"), ("Tuban", "Lamongan"), ("Lamongan", "Bojonegoro"), 
+                    ("Probolinggo", "Pasuruan"), ("Tulungagung", "Trenggalek"), ("Situbondo", "Banyuwangi"), ("Banyuwangi", "Bondowoso"), ("Bondowoso"), 
+                    ("Ponorogo", "Nganjuk"), ("Nganjuk", "Ngawi"), ("Situbondo", "Probolinggo"), ("Ngawi", "Bojonegoro"), 
+                    ("Nganjuk", "Kediri"), ("Kediri","Tulungagung"),("Blitar", "Malang"), ("Blitar", "Tulungagung"), ("Trenggalek", "Ponorogo"), ("Pacitan", "Ponorogo"), ("Trenggalek", "Pacitan")]
 
 for edge in edges_jawa_timur:
     peta_jawa_timur.tambahkanJalan(edge[0], edge[1])
