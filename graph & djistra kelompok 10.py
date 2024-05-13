@@ -3,108 +3,7 @@ from itertools import permutations
 class Peta:
     def __init__(self):
         """Initialize a new Peta object."""
-        self.city_list = {}
-
-    def print_peta(self):
-        """Print the current state of the peta."""
-        for city in self.city_list:
-            print(f"{city}: {self.city_list[city]}")
-
-    def add_city(self, city: str) -> bool:
-        """Add a new city to the peta."""
-        if city not in self.city_list:
-            self.city_list[city] = {"roads": {}, "weights": {}}
-            return True
-        return False
-
-    def remove_city(self, city: str) -> bool:
-        """Remove a city from the peta."""
-        if city in self.city_list:
-            for other_city in self.city_list:
-                if city in self.city_list[other_city]["weights"]:
-                    self.city_list[other_city]["weights"].pop(city)
-            del self.city_list[city]
-            return True
-        return False
-
-    def add_road(self, city1: str, city2: str, weight: int) -> bool:
-        """Add a road between two cities."""
-        if city1 in self.city_list and city2 in self.city_list:
-            if city2 in self.city_list[city1]["weights"]:
-                if self.city_list[city1]["weights"][city2] != weight:
-                    return False
-            else:
-                self.city_list[city1]["weights"][city2] = weight
-
-            if city1 in self.city_list[city2]["weights"]:
-                if self.city_list[city2]["weights"][city1] != weight:
-                    return False
-            else:
-                self.city_list[city2]["weights"][city1] = weight
-
-            return True
-        return False
-
-    def remove_road(self, city1: str, city2: str) -> bool:
-        """Remove a road between two cities."""
-        if city1 in self.city_list and city2 in self.city_list:
-            if city2 in self.city_list[city1]["weights"]:
-                self.city_list[city1]["weights"].pop(city2)
-            if city1 in self.city_list[city2]["weights"]:
-                self.city_list[city2]["weights"].pop(city1)
-            return True
-        return False
-
-    def distance(self, city1: str, city2: str) -> int:
-        """Calculate the distance between two cities."""
-        if city1 not in self.city_list or city2 not in self.city_list:
-            return -1
-        if city1 == city2:
-            return 0
-        if city2 not in self.city_list[city1]["weights"]:
-            return -1
-        return self.city_list[city1]["weights"][city2]
-
-    def total_distance(self, city: str) -> int:
-        """Calculate the total distance from a city to all other cities."""
-        total_distance = 0
-        for other_city in self.city_list:
-            distance_to_city = self.distance(city, other_city)
-            if distance_to_city != -1:
-                total_distance += distance_to_city
-        return total_distance
-
-    def djikstra(self, source):
-        
-        distance = {}
-        for city in self.city_list:
-            distance[city] = float('inf')
-        distance[source] = 0
-
-        unvisited_cities = list(self.city_list.keys())
-
-        while unvisited_cities:
-            min_distance = float('inf')
-            closest_city = None
-            for city in unvisited_cities:
-                if distance[city] < min_distance:
-                    min_distance = distance[city]
-                    closest_city = city
-
-            unvisited_cities.remove(closest_city)
-
-            for neighbor, jarak in self.city_list[closest_city]["weights"].items():
-                jarakNeighbor = distance[closest_city] + jarak
-                if jarakNeighbor < distance[neighbor]:
-                    distance[neighbor] = jarakNeighbor
-        return distance
-    
-from itertools import permutations
-
-class Peta:
-    def __init__(self):
-        """Initialize a new Peta object."""
-        self.city_list = {}
+        self.city_list = {} 
 
     def print_peta(self):
         """Print the current state of the peta."""
@@ -114,7 +13,7 @@ class Peta:
     def add_city(self, city: str) -> bool:
         """Add a new city to the peta."""
         if city not in self.city_list:
-            self.city_list[city] = {}  # Inisialisasi dictionary kosong untuk tetangga
+            self.city_list[city] = {} 
             return True
         return False
 
@@ -130,7 +29,7 @@ class Peta:
 
     def add_road(self, city1: str, city2: str, weight: int) -> bool:
         """Add a road between two cities."""
-        if city1 in self.city_list and city2 in self.city_list:
+        if city1 in self.city_list and city2 in self.city_list and weight > 0:
             self.city_list[city1][city2] = weight
             self.city_list[city2][city1] = weight
             return True
@@ -141,9 +40,8 @@ class Peta:
         if city1 in self.city_list and city2 in self.city_list:
             if city2 in self.city_list[city1]:
                 del self.city_list[city1][city2]
-            if city1 in self.city_list[city2]:
                 del self.city_list[city2][city1]
-            return True
+                return True
         return False
 
     def distance(self, city1: str, city2: str) -> int:
@@ -165,69 +63,65 @@ class Peta:
                 total_distance += distance_to_city
         return total_distance
 
-    def djikstra(self, source):
+    def djikstra(self, source: str):
         """Menghitung jarak terpendek dari source ke semua kota lain menggunakan algoritma Dijkstra."""
-        distance = {}
+        distances = {}
         for city in self.city_list:
-            distance[city] = float('inf')
-        distance[source] = 0
-
+            distances[city] = float('inf')
+        distances[source] = 0
+        
         unvisited_cities = list(self.city_list.keys())
 
         while unvisited_cities:
             min_distance = float('inf')
             closest_city = None
             for city in unvisited_cities:
-                if distance[city] < min_distance:
-                    min_distance = distance[city]
+                if distances[city] < min_distance:
+                    min_distance = distances[city]
                     closest_city = city
-
             unvisited_cities.remove(closest_city)
 
-            for neighbor, jarak in self.city_list[closest_city].items():
-                jarakNeighbor = distance[closest_city] + jarak
-                if jarakNeighbor < distance[neighbor]:
-                    distance[neighbor] = jarakNeighbor
+            for neighbor, weight in self.city_list[closest_city].items():
+                distance = distances[closest_city] + weight
+                if distance < distances[neighbor]:
+                    distances[neighbor] = distance
+        
+        return distances
 
-        return distance
+def tsp(self, start_city: str):
+    """
+    Menghitung jalur dan jarak terpendek untuk mengunjungi semua kota
+    dan kembali ke kota awal (Traveling Salesperson Problem).
+    """
+    cities = list(self.city_list.keys())
+    cities.remove(start_city)
 
-    def tsp(self, start_city):
-        """Menghitung jalur dan jarak terpendek untuk mengunjungi semua kota dan kembali ke kota awal (TSP)."""
-        from itertools import permutations
-        cities = list(self.city_list.keys())
-        cities.remove(start_city)
-        shortest_path = None
+    def tsp_recursive(current_city, remaining_cities, total_distance=0, path=None):
+        if path is None:
+            path = [current_city]
+
+        if not remaining_cities:
+            return total_distance + self.distance(current_city, start_city), path + [start_city]
+
         shortest_distance = float('inf')
-
-        for path in permutations(cities):
-            path = (start_city,) + path + (start_city,)
-            total_distance = 0
-            for i in range(len(path) - 1):
-                total_distance += self.distance(path[i], path[i + 1])
-            if total_distance < shortest_distance:
-                shortest_distance = total_distance
-                shortest_path = path
-        return shortest_path, shortest_distance
-    def tsp(self, start_city):
-        """
-        Menghitung jalur dan jarak terpendek untuk mengunjungi semua kota
-        dan kembali ke kota awal (Traveling Salesperson Problem).
-        """
-        cities = list(self.city_list.keys())
-        cities.remove(start_city)
         shortest_path = None
-        shortest_distance = float('inf')
 
-        for path in permutations(cities):
-            path = (start_city,) + path + (start_city,)
-            total_distance = 0
-            for i in range(len(path) - 1):
-                total_distance += self.distance(path[i], path[i + 1])
-            if total_distance < shortest_distance:
-                shortest_distance = total_distance
-                shortest_path = path
-        return shortest_path, shortest_distance
+        for next_city in remaining_cities:
+            if next_city in self.city_list[current_city] and next_city in remaining_cities: # Periksa keberadaan next_city
+                distance_to_next = self.distance(current_city, next_city)
+                new_distance = total_distance + distance_to_next
+                new_path = path + [next_city]
+                remaining = remaining_cities[:]
+                remaining.remove(next_city)
+                dist, p = tsp_recursive(next_city, remaining, new_distance, new_path)
+                if dist < shortest_distance:
+                    shortest_distance = dist
+                    shortest_path = p
 
+        return shortest_distance, shortest_path
+
+    return tsp_recursive(start_city, cities)
+    
 # Contoh penggunaan
 peta_jawa_timur = Peta()
 peta_jawa_timur.add_city("Surabaya")
@@ -279,17 +173,18 @@ peta_jawa_timur.add_road("Pacitan", "Ponorogo", 69)
 peta_jawa_timur.add_road("Trenggalek", "Pacitan", 94)
 
 source_city = "Surabaya"
-jarakSemuaKota = peta_jawa_timur.djikstra(source_city)
+print("-" * 30)
+print("Peta Jawa Timur:")
+print("-" * 30)
+peta_jawa_timur.print_peta()
 
-print(f"\nMenampilkan jarak terpendek dari kota {source_city} ke kota lain di Jawa Timur:\n")
+print("\n" + "=" * 30)
+print(f"Jarak Terpendek dari {source_city}:")
+print("=" * 30)
+jarakSemuaKota = peta_jawa_timur.djikstra(source_city)
 for city, distance in jarakSemuaKota.items():
     if city != source_city:
         print(f"{source_city} -> {city}: {distance} KM")
 
-print("\nJarak terpendek dalam format dictionary:")
-print(jarakSemuaKota)
 
-# Output TSP
-shortest_tsp_path, shortest_tsp_distance = peta_jawa_timur.tsp(source_city)
-print(f"\nJalur TSP terpendek: {shortest_tsp_path}")
-print(f"Jarak TSP terpendek: {shortest_tsp_distance} KM")
+
